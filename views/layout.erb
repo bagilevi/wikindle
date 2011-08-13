@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title><%= @title || 'wikindle.org' %></title>
+    <style type="text/css">
+      body { font-family: serif; font-size: 120% }
+      #container { width: 590px; overflow: hidden; }
+      .navbox th, .navbox td,
+      .wikitable th, .wikitable td
+      { font-size: 80% }
+      .collapsed, .autocollapse { display: none }
+      img { max-width: 580px }
+      #wikindle_footer { font-size: 80%; }
+      #header { display: none }
+    </style>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+  </head>
+  <body>
+    <div id="container">
+      <%= yield %>
+
+      <div id="wikindle_footer">
+        <hr />
+        <% if @original_url %>
+          <a href="<%= @original_url %>">original version</a>
+        <% end %>
+        <% if @smartphone_url %>
+          <a href="<%= @smartphone_url %>">smartphone version</a>
+        <% end %>
+        <% if @mobile_url %>
+          <a href="<%= @mobile_url %>">mobile version</a>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>
+
+
