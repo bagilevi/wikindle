@@ -2,9 +2,13 @@ require 'sinatra'
 
 get %r{(.*)} do
   path = params[:captures].first
-  original_content = WikipediaGetter.new('en', path).content
+  retriever = WikipediaGetter.new('en', path)
+  original_content = retriever.content
   @content = Transformer.new(original_content).tap(&:execute).content
   @title = original_content[%r{<title>(.*)<\/title>}, 1]
+  @original_url = retriever.url
+  @smartphone_url = retriever.smartphone_url
+  @mobile_url = retriever.mobile_url
   erb :article
 end
 
@@ -19,6 +23,18 @@ class WikipediaGetter
 
   def url
     "http://#{lang}.wikipedia.org#{path}"
+  end
+
+  def smartphone_url
+    "http://#{lang}.m.wikipedia.org#{path}"
+  end
+
+  def mobile_url
+    if path =~ %r{^/wiki/(.*)}
+      "http://mobile.wikipedia.org/transcode.php?go=#{$1}"
+    else
+      "http://mobile.wikipedia.org"
+    end
   end
 
   def content
