@@ -16,6 +16,7 @@ get %r{(.*)} do
 
   if path == '/'
     @content = erb(:homepage_head, :layout => false) + @content
+    @title = 'wikindle.org'
   end
 
   erb :article
@@ -98,6 +99,9 @@ class Transformer
     remove_edit_links
     remove_section 'jumpto'
     insert_after "From Wikipedia, the free encyclopedia", ', <a href="/about">optimized for Kindle</a>'
+    remove /-moz-column-count: \d+;/
+    remove /-webkit-column-count: \d+;/
+    remove /column-count: \d+;/
   end
 
   private
@@ -145,5 +149,9 @@ class Transformer
   def insert_after needle, insertee
     pos = content.index(needle) or return
     content.insert(pos + needle.length, insertee)
+  end
+
+  def remove regex
+    content.gsub! regex, ''
   end
 end
