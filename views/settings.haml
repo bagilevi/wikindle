@@ -1,7 +1,6 @@
 %h1
   Settings
 
-O hai
 %form{ :action => '/settings', :method => 'post' }
   - @size_options.each do |size_option|
     %input{ :id => "size_option_#{size_option}", :type => 'radio', :name => "size", :value => size_option, :checked => (@current_size == size_option) }
