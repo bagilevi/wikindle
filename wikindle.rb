@@ -61,7 +61,7 @@ class Settings
   end
 
   def size
-    (cookies["size"] || 18).to_i
+    (cookies["size"] || 20).to_i
   end
 
   def smaller_size
@@ -73,7 +73,9 @@ class Settings
   end
 
   def save_from_input
-    controller.response.set_cookie("size", controller.params["size"])
+    controller.response.set_cookie("size",
+                                   :value => controller.params["size"],
+                                   :expires => Time.now + 10 * 365 * 24 * 3600)
   end
 end
 
