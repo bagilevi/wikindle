@@ -2,15 +2,15 @@
   <head>
     <title><%= @title || 'wikindle.org' %></title>
     <style type="text/css">
-      body { font-family: serif; font-size: 18px }
+      body { font-family: serif; font-size: <%= @settings.size %>px }
       #container { width: 590px; overflow: hidden; }
       .navbox th, .navbox td,
       .wikitable th, .wikitable td,
       .reflist
-      { font-size: 15px }
+      { font-size: <%= @settings.smaller_size %>px }
       .collapsed, .autocollapse { display: none }
       img { max-width: 580px }
-      #wikindle_footer { font-size: 15px; }
+      #wikindle_footer { font-size: <%= @settings.smaller_size %>px; }
       #header, .section_heading button { display: none }
       .infobox, .thumbinner { margin-left: auto; margin-right: auto; }
     </style>
@@ -26,13 +26,19 @@
       <div id="wikindle_footer">
         <hr />
         <% if @original_url %>
-          <a href="<%= @original_url %>">original version</a>
+          <a href="<%= @original_url %>">Original version</a>
         <% end %>
         <% if @smartphone_url %>
-          <a href="<%= @smartphone_url %>">smartphone version</a>
+          <a href="<%= @smartphone_url %>">Smartphone version</a>
         <% end %>
         <% if @mobile_url %>
-          <a href="<%= @mobile_url %>">mobile version</a>
+          <a href="<%= @mobile_url %>">Mobile version</a>
+        <% end %>
+        <% unless @path == '/settings' %>
+          <a href="/settings">Settings</a>
+        <% end %>
+        <% unless @path == '/' %>
+          <a href="/">Home</a>
         <% end %>
       </div>
     </div>
