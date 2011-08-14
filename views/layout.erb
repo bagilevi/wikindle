@@ -18,6 +18,7 @@
     <% if @original_url %>
       <link rel="canonical" href="<%= @original_url %>" />
     <% end %>
+    <%= erb :"partials/google_analytics" %>
   </head>
   <body>
     <div id="container">
