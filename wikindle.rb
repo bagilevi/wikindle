@@ -28,6 +28,16 @@ get '/wiki/:article' do |article_slug|
   erb :article
 end
 
+get '/wiki' do
+  if params['search']
+    article = Article.get "/wiki?search=#{CGI.escape(params['search'])}"
+    set_template_params_from_article(article)
+    erb :article
+  else
+    raise Sinatra::NotFound
+  end
+end
+
 def set_template_params_from_article article
   @content        = article.optimized_content
   @title          = article.title
@@ -50,11 +60,11 @@ end
 
 
 not_found do
-  'This is nowhere to be found.'
+  haml :not_found, :layout_engine => :erb
 end
 
 error do
-  'Sorry there was a nasty error'
+  haml :error, :layout_engine => :erb
 end
 
 
