@@ -1,31 +1,10 @@
 require 'net/http'
 class Retriever
-  def initialize(lang, path)
-    @lang = lang
-    @path = path
+  def initialize(url)
+    @url = url
   end
 
-  attr_reader :lang, :path
-
-  def url
-    smartphone_url
-  end
-
-  def original_url
-    "http://#{lang}.wikipedia.org#{path}"
-  end
-
-  def smartphone_url
-    "http://#{lang}.m.wikipedia.org#{path}"
-  end
-
-  def mobile_url
-    if path =~ %r{^/wiki/(.*)}
-      "http://mobile.wikipedia.org/transcode.php?go=#{$1}"
-    else
-      "http://mobile.wikipedia.org"
-    end
-  end
+  attr_reader :url
 
   def content
     retrieve_content

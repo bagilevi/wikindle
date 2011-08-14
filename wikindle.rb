@@ -1,29 +1,33 @@
 require 'sinatra'
+require 'cgi'
 
 $: << './lib'
-require 'retriever'
-require 'transformer'
+require 'article'
 
 get '/about' do
   erb :about
 end
 
-get %r{^(\/|\/wiki\/.*)$} do
-  path = params[:captures].first
-  retriever = Retriever.new('en', path)
-  original_content = retriever.content
-  @content = Transformer.new(original_content).tap(&:execute).content
-  @title = original_content[%r{<title>(.*)<\/title>}, 1]
-  @original_url = retriever.original_url
-  @smartphone_url = retriever.smartphone_url
-  @mobile_url = retriever.mobile_url
-
-  if path == '/'
-    @content = erb(:homepage_head, :layout => false) + @content
-    @title = 'wikindle.org'
-  end
-
+get '/' do
+  article = Article.get '/'
+  set_template_params_from_article(article)
+  @title = "wikindle.org - Wikipedia optimized for Kindle"
+  @content = erb(:homepage_head, :layout => false) + @content
   erb :article
+end
+
+get '/wiki/:article' do |article_slug|
+  article = Article.get "/wiki/#{CGI.escape(article_slug)}"
+  set_template_params_from_article(article)
+  erb :article
+end
+
+def set_template_params_from_article article
+  @content        = article.optimized_content
+  @title          = article.title
+  @original_url   = article.original_url
+  @smartphone_url = article.smartphone_url
+  @mobile_url     = article.mobile_url
 end
 
 not_found do
