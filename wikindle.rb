@@ -4,7 +4,7 @@ get '/about' do
   erb :about
 end
 
-get %r{(.*)} do
+get %r{^(\/|\/wiki\/.*)$} do
   path = params[:captures].first
   retriever = WikipediaGetter.new('en', path)
   original_content = retriever.content
