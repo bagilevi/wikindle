@@ -58,6 +58,10 @@ post '/settings' do
   redirect '/settings'
 end
 
+get '/help' do
+  haml :help, :layout_engine => :erb
+end
+
 get '/feedback' do
   haml :feedback, :layout_engine => :erb
 end
