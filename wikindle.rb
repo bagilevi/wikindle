@@ -70,21 +70,11 @@ post '/feedback' do
 Submitted at: #{Time.now}
 User agent: #{request.user_agent}
   EOS
+  require 'email_init'
   Pony.mail(
     :to      => ENV['ADMIN_EMAIL'],
-    :from    => "Wikindle App <#{ENV['APP_EMAIL'] || ENV['ADMIN_EMAIL']}>",
     :subject => '[wikindle] Feedback received',
     :body    => email_body,
-
-    :via     => :smtp,
-    :via_options => {
-      :address        => "smtp.sendgrid.net",
-      :port           => "25",
-      :authentication => "plain",
-      :user_name      => ENV['SENDGRID_USERNAME'],
-      :password       => ENV['SENDGRID_PASSWORD'],
-      :domain         => ENV['SENDGRID_DOMAIN']
-    }
   )
   haml :feedback_submitted, :layout_engine => :erb
 end
@@ -94,7 +84,10 @@ not_found do
 end
 
 error do
+  if ENV['RACK_ENV'] == 'production'
+    require 'exception_email'
+    send_exception_email env['sinatra.error']
+  end
   haml :error, :layout_engine => :erb
 end
-
 
