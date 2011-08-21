@@ -58,6 +58,36 @@ post '/settings' do
   redirect '/settings'
 end
 
+get '/feedback' do
+  haml :feedback, :layout_engine => :erb
+end
+
+post '/feedback' do
+  require 'pony'
+  email_body = <<-EOS
+#{params[:feedback][:message]}
+---
+Submitted at: #{Time.now}
+User agent: #{request.user_agent}
+  EOS
+  Pony.mail(
+    :to      => ENV['ADMIN_EMAIL'],
+    :from    => "Wikindle App <#{ENV['APP_EMAIL'] || ENV['ADMIN_EMAIL']}>",
+    :subject => '[wikindle] Feedback received',
+    :body    => email_body,
+
+    :via     => :smtp,
+    :via_options => {
+      :address        => "smtp.sendgrid.net",
+      :port           => "25",
+      :authentication => "plain",
+      :user_name      => ENV['SENDGRID_USERNAME'],
+      :password       => ENV['SENDGRID_PASSWORD'],
+      :domain         => ENV['SENDGRID_DOMAIN']
+    }
+  )
+  haml :feedback_submitted, :layout_engine => :erb
+end
 
 not_found do
   haml :not_found, :layout_engine => :erb

@@ -1,0 +1,13 @@
+#feedback-page
+  %h1
+    Feedback
+
+  %p.guidance
+    Write your bug report, suggestion, feature request or query in the area below.
+  %p.guidance
+    If you'd like a response, make sure you include your email address.
+
+  %form{ :action => '/feedback', :method => 'post' }
+    %textarea{ :name => 'feedback[message]', :rows => 8, :cols => 60 }
+    .buttons
+      %input{ :type => 'submit', :value => "Submit" }
