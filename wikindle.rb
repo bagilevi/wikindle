@@ -11,6 +11,7 @@ before do
 end
 
 get '/about' do
+  @show_flattr = true
   erb :about
 end
 
