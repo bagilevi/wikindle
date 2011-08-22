@@ -30,10 +30,20 @@ wikindle.org is a quick hack to make reading and navigating <a href="http://en.w
 
 <h2>Buttons to click</h2>
 
-<div class="button-container"><%= erb :"partials/flattr_button" %></div>
-<div class="button-container"><%= erb :"partials/facebook_button" %></div>
-<div class="button-container"><%= erb :"partials/tweet_button" %><%= erb :"partials/follow_button" %></div>
-<div class="button-container"><%= erb :"partials/plus_one_button" %></div>
+<% if @kindle %>
+  <p>
+  If you visit this page on a desktop browser,
+  you can donate with Flattr,
+  like or send on Facebook, tweet,
+  follow @wikindle and +1 it with Google.
+  They unfortunately do not work on a Kindle.
+  </p>
+<% else %>
+  <div class="button-container"><%= erb :"partials/flattr_button" %></div>
+  <div class="button-container"><%= erb :"partials/facebook_button" %></div>
+  <div class="button-container"><%= erb :"partials/tweet_button" %><%= erb :"partials/follow_button" %></div>
+  <div class="button-container"><%= erb :"partials/plus_one_button" %></div>
+  <div class="clear"></div>
+<% end %>
 
-<div class="clear"></div>
 

@@ -8,10 +8,11 @@ require 'settings'
 before do
   @settings = Settings.new(self)
   @path = request.path
+  @kindle = (request.user_agent =~ /Kindle/)
 end
 
 get '/about' do
-  @show_flattr = true
+  @show_flattr = !@kindle
   erb :about
 end
 
