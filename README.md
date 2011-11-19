@@ -23,6 +23,17 @@ Set your email:
 
     heroku config:add ADMIN_EMAIL=me@example.org
 
+## Running locally
+
+This is how I install it:
+
+    rvm install 1.9.2
+    rvm use 1.9.2
+    rvm gemset create wikindle
+    rvm use 1.9.2@wikindle
+    gem install bundler --no-ri --no-rdoc
+    bundle install
+
 To be able to run it locally get your Sendgrid configuration:
 
     heroku config
@@ -34,5 +45,4 @@ and create a `run` script (which is .gitignore'd), like this:
     SENDGRID_PASSWORD="4fa6418571" \
     SENDGRID_USERNAME="app123456@heroku.com" \
     bundle exec rackup config.ru
-
 
