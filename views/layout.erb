@@ -1,4 +1,10 @@
+<% if @opengraph %>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
+<% else %>
 <html>
+<% end %>
   <head>
     <title><%= @title || 'wikindle.org' %></title>
     <style type="text/css">
@@ -25,6 +31,19 @@
     <script type="text/javascript" src="/application.js"></script>
     <% if @show_flattr %>
       <%= erb :"partials/flattr_head" %>
+    <% end %>
+    <% if @opengraph %>
+    <meta property="og:title" content="<%= @title || 'wikindle.org' %>"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://wikindle.org/"/>
+    <meta property="og:image" content="http://wikindle.org/wikindle.jpg"/>
+    <meta property="og:site_name" content="Wikindle"/>
+    <meta property="fb:admins" content="43822393591"/>
+    <meta property="og:description" content="Wikipedia articles optimized for the Amazon Kindle browser."/>
+    <% end %>
+    <% if @path == '/' || @path == '/about' %>
+    <meta name="keywords" content="Wikipedia,Amazon Kindle,Kindl"/>
+    <meta name="description" content="Wikipedia articles optimized for the Amazon Kindle browser."/>
     <% end %>
   </head>
   <body>

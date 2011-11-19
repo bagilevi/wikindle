@@ -13,10 +13,12 @@ end
 
 get '/about' do
   @show_flattr = !@kindle
+  @opengraph = !@kindle
   erb :about
 end
 
 get '/' do
+  @opengraph = !@kindle
   article = Article.get '/'
   set_template_params_from_article(article)
   @title = "wikindle.org - Wikipedia optimized for Kindle"
