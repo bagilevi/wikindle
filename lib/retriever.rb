@@ -7,7 +7,7 @@ class Retriever
   attr_reader :url
 
   def content
-    retrieve_content
+    retrieve_content.force_encoding('UTF-8')
   end
 
   def retrieve_content
